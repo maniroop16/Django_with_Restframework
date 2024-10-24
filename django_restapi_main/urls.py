@@ -23,6 +23,9 @@ urlpatterns = [
     #Web app
     path("students/", include("students.urls")),
 
-    #Restapi app
+    #Restapi Student app
     path("api/v1/", include("restapi.urls")),
+
+    #Restapi Employee app
+    path("api/v1/", include("employee.urls"))
 ]
