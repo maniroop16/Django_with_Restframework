@@ -93,7 +93,8 @@ class Employeesdetails(APIView):
         return Response(status= status.HTTP_204_NO_CONTENT)'''
 
 
-class Employees(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+#Mixins
+'''class Employees(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
     queryset = Employee.objects.all()
     serializer_class = Employeeserializer
 
@@ -115,4 +116,32 @@ class Employeesdetails(mixins.RetrieveModelMixin,mixins.UpdateModelMixin, mixins
     
     def delete(self, request, pk):
         return self.destroy(request, pk)
+    '''
+
+# Generic based View
+class Employees(generics.ListAPIView, generics.CreateAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = Employeeserializer
+
+'''
+# This is combiation of listing and creating
+class Employees(generics.ListCreateAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = Employeeserializer  
+    '''  
+
+class Employeesdetails(generics.RetrieveAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = Employeeserializer
+    lookup_field = "pk"
+
+'''
+# This is combiation of retriving, updating, destroying
+# We also have RetrieveUpdateAPIView
+class Employeesdetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = Employeeserializer
+    lookup_field = "pk"   
+    ''' 
+
         
