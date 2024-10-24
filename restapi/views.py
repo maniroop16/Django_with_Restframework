@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from students.models import Students
 from restapi.serializers import Studentserializer, Employeeserializer
@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view
 from employee.models import Employee
 from rest_framework.views import APIView
 from django.http import Http404
-from rest_framework import mixins,generics
+from rest_framework import mixins,generics, viewsets
 
 
 
@@ -119,9 +119,9 @@ class Employeesdetails(mixins.RetrieveModelMixin,mixins.UpdateModelMixin, mixins
     '''
 
 # Generic based View
-class Employees(generics.ListAPIView, generics.CreateAPIView):
+'''class Employees(generics.ListAPIView, generics.CreateAPIView):
     queryset = Employee.objects.all()
-    serializer_class = Employeeserializer
+    serializer_class = Employeeserializer'''
 
 '''
 # This is combiation of listing and creating
@@ -130,10 +130,10 @@ class Employees(generics.ListCreateAPIView):
     serializer_class = Employeeserializer  
     '''  
 
-class Employeesdetails(generics.RetrieveAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
+'''class Employeesdetails(generics.RetrieveAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
     queryset = Employee.objects.all()
     serializer_class = Employeeserializer
-    lookup_field = "pk"
+    lookup_field = "pk"'''
 
 '''
 # This is combiation of retriving, updating, destroying
@@ -144,4 +144,35 @@ class Employeesdetails(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = "pk"   
     ''' 
 
-        
+#Viewsets.Viewset
+
+class Employees(viewsets.ViewSet):
+    def list(self, request):
+        queryset = Employee.objects.all()
+        serialize = Employeeserializer(queryset, many = True)
+        return Response(serialize.data, status=status.HTTP_200_OK)
+    
+    def create(self, request):
+        serilizer = Employeeserializer(data = request.data)
+        if serilizer.is_valid():
+            serilizer.save()
+            return Response(serilizer.data, status = status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+    def retrieve(self, request, pk=None):
+        employee_obj = get_object_or_404(Employee, pk=pk)
+        serialize = Employeeserializer(employee_obj)
+        return Response(serialize.data, status=status.HTTP_200_OK)
+
+    def update(self, request, pk):
+        employee_obj = get_object_or_404(Employee, pk=pk)
+        serilizer = Employeeserializer(employee_obj, data = request.data)
+        if serilizer.is_valid():
+            serilizer.save()
+            return Response(serilizer.data, status=status.HTTP_200_OK)    
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk):
+        employee = get_object_or_404(Employee, pk=pk)
+        employee.delete()
+        return Response(status= status.HTTP_204_NO_CONTENT)
