@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from django.http import Http404
 from rest_framework import mixins,generics, viewsets
 from employee.pagination import Employeepagination
-
+from employee.filters import Employeefilter
 
 
 #Function-Based-View
@@ -183,4 +183,7 @@ class Employees(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = Employeeserializer
     pagination_class = Employeepagination
+    #filterset_fields = ['designation']
+    filterset_class = Employeefilter
+    
 
