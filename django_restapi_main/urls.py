@@ -30,5 +30,8 @@ urlpatterns = [
     path("api/v1/", include("employee.urls")),
 
     #Restapi Blog and Comments app
-    path("api/v1/", include("blog.urls"))
+    path("api/v1/", include("blog.urls")),
+
+    #Restapi Auth check
+    path("api/v1/", include("authandpermissions.urls"))
 ]

@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'employee',
     'blog',
     'django_filters',
+    'authandpermissions',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -136,4 +138,10 @@ REST_FRAMEWORK = {
 
 REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"]
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
 }
