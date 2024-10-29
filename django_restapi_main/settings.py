@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_filters',
     'authandpermissions',
     'rest_framework.authtoken',
+    'inheritance',
 ]
 
 MIDDLEWARE = [
