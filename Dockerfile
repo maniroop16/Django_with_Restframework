@@ -21,7 +21,7 @@ COPY . .
 EXPOSE 8000
 
 # Collect static files (optional for development, mandatory for production)
-RUN python manage.py collectstatic --noinput
+# RUN python manage.py collectstatic --noinput
 
 # Start the Django development server
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
