@@ -6,5 +6,6 @@ def students(request):
         "name":"sai",
         "age":24,
         "profession":"Software and doctor"
+        
     }]
     return HttpResponse(students)
